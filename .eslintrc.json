@@ -1,0 +1,46 @@
+{
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "extends": ["airbnb", "prettier"],
+  "plugins": ["jest", "jsx-a11y", "react-hooks"],
+  "globals": {
+    "__DEV__": true,
+    "document": true,
+    "window": true,
+    "it": true,
+    "test": true,
+    "jest": true,
+    "expect": true,
+    "describe": true,
+    "beforeAll": true,
+    "afterAll": true
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js"],
+        "paths": ["src"]
+      }
+    }
+  },
+
+  "rules": {
+    "no-console": 1,
+    "jsx-quotes":  [
+      1,
+      "prefer-double"
+    ],
+    "react/jsx-filename-extension": 0,
+    "no-unused-vars": 1,
+    "react-hooks/rules-of-hooks": 2,
+    "react-hooks/exhaustive-deps": 1,
+    "react/jsx-one-expression-per-line": 0,
+    "import/prefer-default-export": 0,
+    "react/forbid-prop-types": 0
+  }
+}
+
