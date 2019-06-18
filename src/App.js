@@ -3,20 +3,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BackgroundContext, ThemeContext } from './app-context';
 import Item from './Item';
 
-const App = () => {
-  const theme = useContext(ThemeContext);
-  const background = useContext(BackgroundContext);
-  const [count, setCount] = useState(0);
-  const [value, setValue] = useState('test value');
+const useWindowWidth = () => {
   const [width, setWidth] = useState(window.innerWidth);
-  const [user, setUser] = useState(null);
-
-  const clickOnButton = () => setCount(count + 1);
-  const handleChangeValue = e => setValue(e.target.value);
-
-  useEffect(() => {
-    document.title = value;
-  });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
@@ -26,7 +14,17 @@ const App = () => {
       window.removeEventListener('resize', handleWidth);
     };
   });
+  return width;
+};
 
+const useDocumentTitle = title => {
+  useEffect(() => {
+    document.title = title;
+  });
+};
+
+const useFetchingUser = flag => {
+  const [user, setUser] = useState(null);
   useEffect(() => {
     const fetchUser = async () => {
       const response = await fetch('https://api.randomuser.me/');
@@ -35,7 +33,22 @@ const App = () => {
       setUser(item);
     };
     fetchUser();
-  }, [count]);
+  }, [flag]);
+
+  return user;
+};
+
+const App = () => {
+  const theme = useContext(ThemeContext);
+  const background = useContext(BackgroundContext);
+  const [count, setCount] = useState(0);
+  const [value, setValue] = useState('test value');
+  const width = useWindowWidth();
+  useDocumentTitle(value);
+  const user = useFetchingUser(count);
+
+  const clickOnButton = () => setCount(count + 1);
+  const handleChangeValue = e => setValue(e.target.value);
 
   return (
     <div className={`card ${background}`}>
