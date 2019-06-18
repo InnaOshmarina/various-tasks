@@ -10,7 +10,7 @@ const Item = ({ children, label }) => (
 
 Item.propTypes = {
   label: PropTypes.string.isRequired,
-  children: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default Item;

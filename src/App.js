@@ -18,13 +18,14 @@ const App = () => {
     document.title = value;
   });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const handleWidth = setWidth(window.innerWidth);
     window.addEventListener('resize', handleWidth);
     return () => {
       window.removeEventListener('resize', handleWidth);
     };
-  }, []);
+  });
 
   useEffect(() => {
     const fetchUser = async () => {
