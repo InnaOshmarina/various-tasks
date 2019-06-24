@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import lodash from 'lodash';
+import axios from 'axios';
 
-import DataTable from './components/DataTable';
+import { API_URL } from './constants/api';
+import DataTable from './components/shared/DataTable';
+import { HEADERS } from './constants/usersDataTable';
 import Loader from './components/shared/Loader';
+import { PAGE_SIZE } from './constants/global';
 
 import s from './styles.module.scss';
 
@@ -12,35 +15,85 @@ class App extends Component {
     data: [],
     sortDirection: 'asc',
     sortField: 'lastName',
+    currentPage: 1,
   };
 
   async componentDidMount() {
-    const response = await fetch(
-      'http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}'
-    );
-    const data = await response.json();
-    const { sortDirection, sortField } = this.state;
-    this.setState({
-      isLoading: false,
-      data: lodash.orderBy(data, sortField, sortDirection),
-    });
+    this.getData();
   }
 
-  onSort = sortField => {
-    const { data, sortDirection } = this.state;
-    const clonedData = data;
-    const sortType = sortDirection === 'asc' ? 'desc' : 'asc';
+  getData = async () => {
+    const { sortDirection, sortField } = this.state;
+    try {
+      const res = await axios.get(API_URL, {
+        params: {
+          _limit: PAGE_SIZE,
+          _sort: sortField,
+          _order: sortDirection,
+        },
+      });
+      const ourData = res.data;
+      this.setState({ isLoading: false, data: ourData });
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
-    const orderedData = lodash.orderBy(clonedData, sortField, sortType);
-    this.setState({
-      data: orderedData,
-      sortDirection: sortType,
-      sortField,
-    });
+  onSort = sortField => {
+    const { sortDirection } = this.state;
+
+    const sortType = sortDirection === 'asc' ? 'desc' : 'asc';
+    (async () => {
+      try {
+        const res = await axios.get(API_URL, {
+          params: {
+            _limit: PAGE_SIZE,
+            _sort: sortField,
+            _order: sortType,
+          },
+        });
+
+        const ourData = res.data;
+        this.setState({
+          data: ourData,
+          sortDirection: sortType,
+          sortField,
+          currentPage: 1,
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  };
+
+  changePageHandler = async (event, selected) => {
+    event.preventDefault();
+
+    const { sortDirection, sortField } = this.state;
+    try {
+      const res = await axios.get(API_URL, {
+        params: {
+          _limit: PAGE_SIZE,
+          _sort: sortField,
+          _order: sortDirection,
+          _page: selected,
+        },
+      });
+      const ourData = res.data;
+      this.setState({ data: ourData, currentPage: selected });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   render() {
-    const { data, isLoading, sortDirection, sortField } = this.state;
+    const {
+      currentPage,
+      data,
+      isLoading,
+      sortDirection,
+      sortField,
+    } = this.state;
     return (
       <div className={`container ${s.root}`}>
         {isLoading ? (
@@ -48,9 +101,12 @@ class App extends Component {
         ) : (
           <DataTable
             data={data}
+            headers={HEADERS}
             onSort={this.onSort}
             sortDirection={sortDirection}
             sortField={sortField}
+            changePageHandler={this.changePageHandler}
+            currentPage={currentPage}
           />
         )}
       </div>
