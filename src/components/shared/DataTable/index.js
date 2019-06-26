@@ -1,50 +1,20 @@
 import React from 'react';
-import classnames from 'classnames';
 import lodash from 'lodash';
 import PropTypes from 'prop-types';
 
-import { getPageCount, setArray } from '../../../helpers/PaginationHelper';
-import { ITEM_COUNT } from '../../../constants/temporary';
-import { PAGE_SIZE } from '../../../constants/global';
+import Pagination from '../Pagination';
 import { TextFormat } from '../../../helpers/TableHelper';
 
 const DataTable = props => {
   const {
+    changePageHandler,
+    currentPage,
     data,
     headers,
-    changePageHandler,
     onSort,
     sortDirection,
     sortField,
-    currentPage,
   } = props;
-
-  const allPages = getPageCount(ITEM_COUNT, PAGE_SIZE);
-  const pages = setArray(1, allPages);
-
-  const prevButton =
-    currentPage === 1 ? null : (
-      <li
-        className="page-item "
-        onClick={event => changePageHandler(event, currentPage - 1)}
-      >
-        <a className="page-link" href="" tabIndex="-1">
-          Prev
-        </a>
-      </li>
-    );
-
-  const nextButton =
-    currentPage === allPages ? null : (
-      <li
-        className="page-item "
-        onClick={event => changePageHandler(event, currentPage + 1)}
-      >
-        <a className="page-link" href="" tabIndex="-1">
-          Next
-        </a>
-      </li>
-    );
 
   return (
     <div>
@@ -76,35 +46,23 @@ const DataTable = props => {
           ))}
         </tbody>
       </table>
-      <ul className="pagination">
-        {prevButton}
-        {pages.map((item, index) => (
-          <li
-            key={index}
-            className={classnames('page-item', {
-              active: currentPage === item,
-            })}
-            onClick={event => changePageHandler(event, item)}
-          >
-            <a className="page-link" href="">
-              {item}
-            </a>
-          </li>
-        ))}
-        {nextButton}
-      </ul>
+      <Pagination
+        changePageHandler={changePageHandler}
+        currentPage={currentPage}
+        data={data}
+      />
     </div>
   );
 };
 
 DataTable.propTypes = {
+  changePageHandler: PropTypes.func.isRequired,
+  currentPage: PropTypes.number.isRequired,
   data: PropTypes.array.isRequired,
   headers: PropTypes.array.isRequired,
   onSort: PropTypes.func.isRequired,
-  changePageHandler: PropTypes.func.isRequired,
   sortDirection: PropTypes.string.isRequired,
   sortField: PropTypes.string.isRequired,
-  currentPage: PropTypes.number.isRequired,
 };
 
 export default DataTable;

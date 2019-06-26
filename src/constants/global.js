@@ -1,6 +1,11 @@
 export const PAGE_SIZE = 50;
 
 export const TEXT_FORMAT = {
-  boolean: 'boolean',
-  string: 'string',
+  BOOLEAN: 'boolean',
+  STRING: 'string',
+};
+
+export const DIRECTION = {
+  ASC: 'asc',
+  DESC: 'desc',
 };

@@ -6,7 +6,7 @@ export const HEADERS = [
     name: 'id',
     options: {
       headerName: 'Id',
-      type: TEXT_FORMAT.string,
+      type: TEXT_FORMAT.STRING,
     },
   },
   {
@@ -14,7 +14,7 @@ export const HEADERS = [
     name: 'isActive',
     options: {
       headerName: 'Is active',
-      type: TEXT_FORMAT.boolean,
+      type: TEXT_FORMAT.BOOLEAN,
     },
   },
   {
@@ -22,7 +22,7 @@ export const HEADERS = [
     name: 'balance',
     options: {
       headerName: 'Balance',
-      type: TEXT_FORMAT.string,
+      type: TEXT_FORMAT.STRING,
     },
   },
   {
@@ -30,7 +30,7 @@ export const HEADERS = [
     name: 'lastName',
     options: {
       headerName: 'Last name',
-      type: TEXT_FORMAT.string,
+      type: TEXT_FORMAT.STRING,
     },
   },
   {
@@ -38,7 +38,7 @@ export const HEADERS = [
     name: 'email',
     options: {
       headerName: 'Email',
-      type: TEXT_FORMAT.string,
+      type: TEXT_FORMAT.STRING,
     },
   },
   {
@@ -46,7 +46,7 @@ export const HEADERS = [
     name: 'phone',
     options: {
       headerName: 'Phone',
-      type: TEXT_FORMAT.string,
+      type: TEXT_FORMAT.STRING,
     },
   },
 ];
