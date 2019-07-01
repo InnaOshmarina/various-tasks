@@ -1,5 +1,5 @@
 import React from 'react';
-import lodash from 'lodash';
+import methodGet from 'lodash/get';
 import PropTypes from 'prop-types';
 
 import Pagination from '../Pagination';
@@ -37,7 +37,7 @@ const DataTable = props => {
               {headers.map(headerItem => (
                 <td key={headerItem.id}>
                   {TextFormat(
-                    lodash.get(dataItem, headerItem.name),
+                    methodGet(dataItem, headerItem.name),
                     headerItem.options.type
                   )}
                 </td>
