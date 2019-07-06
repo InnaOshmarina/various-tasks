@@ -1,0 +1,4 @@
+export const GET_USERS_DATA = 'GET/USERS/DATA';
+export const SET_USERS_DATA = 'SET/USERS/DATA';
+
+export const SET_USERS_DATA_ERROR = 'SET/USERS/DATA _ERROR';

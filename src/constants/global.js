@@ -5,7 +5,12 @@ export const TEXT_FORMAT = {
   STRING: 'string',
 };
 
-export const DIRECTION = {
-  ASC: 'asc',
-  DESC: 'desc',
+export const SORTING = {
+  DIRECTION: {
+    ASC: 'asc',
+    DESC: 'desc',
+  },
+  FIELD: {
+    LAST_NAME: 'lastName',
+  },
 };

@@ -10,14 +10,10 @@ import s from './styles.module.scss';
 
 const Pagination = props => {
   const { changePageHandler, currentPage, data } = props;
-  console.log('data length from pagination:', data.length);
 
   const allPages = getPageCount(ITEM_COUNT, PAGE_SIZE);
-  console.log('currentPage:', currentPage);
-  console.log('allPages:', allPages);
 
   const listPages = getRangeArray(currentPage, allPages);
-  console.log('listPages: ', listPages);
 
   const prevButton =
     currentPage === 1 ? null : (
