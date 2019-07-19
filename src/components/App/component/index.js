@@ -21,7 +21,7 @@ class App extends PureComponent {
       sortDirection,
       sortField,
     } = this.props;
-    getUsersData(sortField, sortDirection, currentPage, search, limit);
+    getUsersData({ sortField, sortDirection, currentPage, search, limit });
   }
 
   onSort = sortField => {
@@ -31,7 +31,13 @@ class App extends PureComponent {
       sortDirection === SORTING.DIRECTION.ASC
         ? SORTING.DIRECTION.DESC
         : SORTING.DIRECTION.ASC;
-    getUsersData(sortField, sortType, 1, search, limit);
+    getUsersData({
+      sortField,
+      sortDirection: sortType,
+      currentPage: 1,
+      search,
+      limit,
+    });
   };
 
   changePageHandler = (event, selected) => {
@@ -45,23 +51,41 @@ class App extends PureComponent {
       sortField,
     } = this.props;
 
-    getUsersData(sortField, sortDirection, selected, search, limit);
+    getUsersData({
+      sortField,
+      sortDirection,
+      currentPage: selected,
+      search,
+      limit,
+    });
   };
 
   searchHandler = text => {
     const { getUsersData, limit, sortDirection, sortField } = this.props;
 
-    getUsersData(sortField, sortDirection, 1, text, limit);
+    getUsersData({
+      sortField,
+      sortDirection,
+      currentPage: 1,
+      search: text,
+      limit,
+    });
   };
 
   applyLimitHandler = value => {
     const { getUsersData, search, sortDirection, sortField } = this.props;
-
-    getUsersData(sortField, sortDirection, 1, search, value);
+    getUsersData({
+      sortField,
+      sortDirection,
+      currentPage: 1,
+      search,
+      limit: value,
+    });
   };
 
   render() {
     const { currentPage, data, loader, sortDirection, sortField } = this.props;
+
     return (
       <div className={`container ${s.root}`}>
         {loader ? (
@@ -98,7 +122,7 @@ App.propTypes = {
   currentPage: PropTypes.number,
   data: PropTypes.array.isRequired,
   getUsersData: PropTypes.func.isRequired,
-  limit: PropTypes.number,
+  limit: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   loader: PropTypes.bool.isRequired,
   search: PropTypes.string,
   sortDirection: PropTypes.string.isRequired,

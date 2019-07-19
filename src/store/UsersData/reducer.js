@@ -1,8 +1,13 @@
 import { PAGE_SIZE, SORTING } from '../../constants/global';
-import { SET_USERS_DATA, SET_USERS_DATA_ERROR } from './actions';
+import {
+  IS_LOADING_DONE,
+  IS_LOADING_START,
+  SET_USERS_DATA,
+  SET_USERS_DATA_ERROR,
+} from './actions';
 
 export const initialState = {
-  isLoading: true,
+  isLoading: false,
   users: {
     data: [],
     filters: {
@@ -18,6 +23,16 @@ export const initialState = {
 export default (state = initialState, action) => {
   const { payload, type } = action;
   switch (type) {
+    case IS_LOADING_START:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case IS_LOADING_DONE:
+      return {
+        ...state,
+        isLoading: false,
+      };
     case SET_USERS_DATA:
       return {
         ...state,
@@ -38,6 +53,7 @@ export default (state = initialState, action) => {
     case SET_USERS_DATA_ERROR:
       return {
         ...state,
+        isLoading: false,
         users: {
           ...state.users,
           error: payload.error,

@@ -1,36 +1,26 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { doRequest } from '../../helpers/ApiHelper';
 import { GET_USERS_DATA } from './actions';
-import { setUsersData, setUsersDataError } from './actionCreators';
+import {
+  setLoadingDone,
+  setLoadingStart,
+  setUsersData,
+  setUsersDataError,
+} from './actionCreators';
 
 function* getUsers(action) {
   const { payload } = action;
-  const { currentPage, limit, search, sortDirection, sortField } = payload;
-  let ourData = [];
   try {
-    const res = yield call(
-      doRequest,
-      sortField,
-      sortDirection,
-      currentPage,
-      search,
-      limit
-    );
+    yield put(setLoadingStart());
+
+    const res = yield call(doRequest, payload);
     const { data } = res;
-    ourData = data;
+    // throw new Error("It is a test error")
+    yield put(setUsersData(data, payload));
   } catch (error) {
     yield put(setUsersDataError(error.message));
   } finally {
-    yield put(
-      setUsersData(
-        ourData,
-        sortField,
-        sortDirection,
-        currentPage,
-        search,
-        limit
-      )
-    );
+    yield put(setLoadingDone());
   }
 }
 

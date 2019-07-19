@@ -1,3 +1,6 @@
+export const IS_LOADING_START = 'IS/LOADING_START';
+export const IS_LOADING_DONE = 'IS/LOADING_DONE';
+
 export const GET_USERS_DATA = 'GET/USERS/DATA';
 export const SET_USERS_DATA = 'SET/USERS/DATA';
 
